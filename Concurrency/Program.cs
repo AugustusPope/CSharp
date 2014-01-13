@@ -5,58 +5,59 @@ using System.Text;
 
 namespace Concurrency
 {
-
-    class Club
-    {  
-        public Club(string clubname, int capacity)
-        {
-            ClubName = clubname;
-            Capacity = capacity;
-            _sem = new System.Threading.SemaphoreSlim(Capacity);
-        }
-        public void Enter(Person obj)
-        {
-            Console.WriteLine(obj.Name+" wants to enter!");
-            Console.WriteLine(obj.Name+"  is in the line!");
-            _sem.Wait();
-            Console.WriteLine(obj.Name + "  entered!");
-            System.Threading.Thread.Sleep(10);
-            _sem.Release();
-            Console.WriteLine(obj.Name + " has left!");
-        }
-
-
-        private string ClubName { get; set; }
-        private int Capacity { get; set; }
-        private System.Threading.SemaphoreSlim _sem; 
-        
-    }
-    class Person
-    {
-        public Person(string name)
-        {
-            Name = name;
-        }
-        public string Name { get; private set; }
-    }
- 
+  
     class Program
     {
+        static System.ComponentModel.BackgroundWorker _bw;
+        static void BW_CountToMillion(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+
+                if (i>10000 && (i % 10000 == 0))
+                {
+                    _bw.ReportProgress(i / 10000);
+                    System.Threading.Thread.Sleep(100);
+                }
+            } 
+        }
+
+        static void BW_ProgressChanged(object sender,
+                               System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            Console.WriteLine("Reached " + e.ProgressPercentage + "%");
+        }
+
+        static void BW_RunWorkerCompleted(object sender,
+                                    System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+                Console.WriteLine("You canceled!");
+            else if (e.Error != null)
+                Console.WriteLine("Worker exception: " + e.Error.ToString());
+            else
+                Console.WriteLine("Complete: " + e.Result);      // from DoWork
+        }
+
+
         static void Main(string[] args)
         {
-            Club hightline = new Club("Hightline",3);
-            Person A = new Person("A");
-            Person B = new Person("B");
-            Person C = new Person("C");
-            Person D = new Person("D");
-            Person E = new Person("E");
-            new System.Threading.Thread(()=>hightline.Enter(A)).Start();
-            new System.Threading.Thread(() => hightline.Enter(B)).Start();
-            new System.Threading.Thread(() => hightline.Enter(C)).Start();
-            new System.Threading.Thread(() => hightline.Enter(D)).Start();
-            new System.Threading.Thread(() => hightline.Enter(E)).Start();
+            _bw = new System.ComponentModel.BackgroundWorker();
+           _bw.WorkerReportsProgress = true;
 
-            System.Threading.Thread.Sleep(10000);
+           _bw.WorkerSupportsCancellation = true;
+
+           _bw.DoWork += BW_CountToMillion;
+           _bw.ProgressChanged += BW_ProgressChanged;
+           _bw.RunWorkerCompleted += BW_RunWorkerCompleted;
+
+           _bw.RunWorkerAsync();
+            //_bw.r
+
+
+           System.Threading.Thread.Sleep(10000);
+
+
         }  
     }
 }

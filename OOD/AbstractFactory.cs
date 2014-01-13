@@ -5,7 +5,12 @@ using System.Text;
 
 namespace OOD
 {
-    public class Class1
+    namespace CreationalPattern
     {
+        namespace AbstractFactory
+        {
+
+        }
     }
+    
 }

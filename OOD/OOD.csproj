@@ -40,8 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AbstractFactory.cs" />
+    <Compile Include="AdapterPattern.cs" />
+    <Compile Include="Builder.cs" />
+    <Compile Include="CommandPattern.cs" />
+    <Compile Include="DecoratorPattern.cs" />
+    <Compile Include="Facade.cs" />
+    <Compile Include="FactoryMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

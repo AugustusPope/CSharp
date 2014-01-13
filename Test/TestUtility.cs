@@ -20,7 +20,7 @@ namespace Test
                 // queue.Enqueue("E");
                 //queue.Dequeue();
                 //queue.Dequeue();
-                queue.Enqueue("A");
+                queue.Enqueue("A"); 
                 queue.Enqueue("B");
                 List<string> alist = queue.Where(node => node.ToString() == "A").ToList();
                 foreach (var item in queue)

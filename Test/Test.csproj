@@ -56,6 +56,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="TestUtility.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OOD\OOD.csproj">
+      <Project>{46947605-34D3-498A-8399-C9E4A5B25051}</Project>
+      <Name>OOD</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
